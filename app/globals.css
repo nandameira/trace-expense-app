@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Trace Expense — design tokens
+   Canvas: warm paper grey. Cards: pure white, hairline border, one soft
+   shadow layer. Single accent: trace violet. Numbers always tabular.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-canvas: #f3f3f0;
+  --color-card: #ffffff;
+  --color-ink: #191817;
+  --color-ink-soft: #6f6d68;
+  --color-ink-faint: #a3a19a;
+  --color-line: #e8e7e2;
+
+  --color-trace: #6656e8;        /* accent */
+  --color-trace-soft: #efedfd;
+  --color-positive: #1f8a5d;
+  --color-positive-soft: #e4f4ec;
+  --color-negative: #cf4534;
+  --color-negative-soft: #fbeae7;
+  --color-amber: #d9930f;
+  --color-amber-soft: #fbf1dc;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Sans", "Inter", ui-sans-serif, sans-serif;
+
+  --radius-tile: 1.25rem;
+  --shadow-tile: 0 1px 2px rgb(25 24 23 / 0.04), 0 8px 24px -12px rgb(25 24 23 / 0.10);
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-feature-settings: "cv11";
+}
+
+/* Every rendered amount uses tabular figures — columns of money never wobble */
+.num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.tile {
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-tile);
+  box-shadow: var(--shadow-tile);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
