@@ -1,15 +1,16 @@
 /**
- * /auth/callback — completes the Google OAuth (PKCE) round-trip.
+ * /auth/callback — completes both auth round-trips:
+ *   1. OAuth (Google): ?code=...            -> exchangeCodeForSession
+ *   2. Email confirmation links: ?token_hash=...&type=... -> verifyOtp
  *
- * Hardening:
- *   - `next` is validated to a same-origin absolute path (no open redirect).
- *   - A failed code exchange redirects to the gateway with an error flag
- *     instead of silently pretending the user is signed in.
- *   - Uses the shared server client (modern getAll/setAll cookie adapter),
- *     matching the middleware so chunked auth cookies survive refreshes.
+ * Hardening (unchanged): `next` is validated to a same-origin absolute
+ * path, failures land on the gateway with a readable error flag, and the
+ * shared server client keeps the cookie adapter consistent with the
+ * middleware.
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import type { EmailOtpType } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 
 function safePath(next: string | null): string {
@@ -19,20 +20,32 @@ function safePath(next: string | null): string {
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
-  const code = searchParams.get("code");
   const next = safePath(searchParams.get("next"));
 
-  if (!code) {
-    // User cancelled at Google, or the provider returned an error.
-    return NextResponse.redirect(`${origin}/?error=auth`);
-  }
+  const code = searchParams.get("code");
+  const tokenHash = searchParams.get("token_hash");
+  const type = searchParams.get("type") as EmailOtpType | null;
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
 
-  if (error) {
-    return NextResponse.redirect(`${origin}/?error=exchange`);
+  // Email confirmation / magic-link style round-trip
+  if (tokenHash && type) {
+    const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
+    if (error) {
+      return NextResponse.redirect(`${origin}/?error=confirm`);
+    }
+    return NextResponse.redirect(`${origin}${next}`);
   }
 
-  return NextResponse.redirect(`${origin}${next}`);
+  // OAuth (PKCE) round-trip
+  if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error) {
+      return NextResponse.redirect(`${origin}/?error=exchange`);
+    }
+    return NextResponse.redirect(`${origin}${next}`);
+  }
+
+  // User cancelled at the provider, or the provider returned an error.
+  return NextResponse.redirect(`${origin}/?error=auth`);
 }

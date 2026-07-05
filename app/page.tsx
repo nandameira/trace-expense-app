@@ -6,11 +6,13 @@
  */
 
 import Image from "next/image";
+import { AuthForm } from "@/components/auth-form";
 import { GoogleSignIn } from "@/components/google-sign-in";
 
 const ERROR_COPY: Record<string, string> = {
   auth: "Sign-in didn't complete. Try again.",
   exchange: "Google signed you in, but the session couldn't be created. Try again.",
+  confirm: "That confirmation link is invalid or has expired — sign in, or create the account again to get a fresh one.",
 };
 
 export default async function LoginGateway({
@@ -50,14 +52,22 @@ export default async function LoginGateway({
         )}
 
         <div className="mt-6 w-full">
+          <AuthForm next={params.next} />
+        </div>
+
+        <div className="mt-5 flex w-full items-center gap-3" aria-hidden>
+          <hr className="flex-1 border-line" />
+          <span className="type-caption text-ink-faint">or</span>
+          <hr className="flex-1 border-line" />
+        </div>
+
+        <div className="mt-5 w-full">
           <GoogleSignIn next={params.next} />
         </div>
 
-        <hr className="mt-6 w-full border-line" />
-
-        <p className="type-caption mt-4 text-ink-faint">
-          Google is the only sign-in method. Your data is isolated per account
-          and never shared.
+        <p className="type-caption mt-6 text-ink-faint">
+          Sign in with email or Google. Your data is isolated per account and
+          never shared.
         </p>
       </div>
     </main>
