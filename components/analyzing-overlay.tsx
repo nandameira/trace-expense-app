@@ -10,12 +10,12 @@
 import { useEffect, useState } from "react";
 
 const MESSAGES = [
-  "Reading your statements 🧐",
-  "Following the money trail 💸",
-  "Grouping lookalike merchants 🧩",
-  "Averaging six months of habits 📆",
-  "Sketching your budget 🎨",
-  "Almost there ✨",
+  "Reading your statements",
+  "Following the money trail",
+  "Grouping lookalike merchants",
+  "Averaging six months of habits",
+  "Sketching your budget",
+  "Almost there",
 ];
 
 export function AnalyzingOverlay() {
@@ -81,7 +81,7 @@ export function AnalyzingOverlay() {
       </div>
 
       <div className="text-center">
-        <h2 className="font-display text-2xl font-semibold tracking-tight">
+        <h2 className="type-h2 tracking-tight">
           Studying your spending
         </h2>
         <p key={messageIndex} className="mt-2 text-sm font-medium text-ink-soft">

@@ -93,7 +93,7 @@ export function BudgetEditor({
               aria-label={`Emoji for ${row.name || "new category"}`}
               value={row.emoji}
               onChange={(e) => update(row.rowId, { emoji: e.target.value })}
-              className="w-12 rounded-xl border border-line bg-card px-2 py-2 text-center text-lg focus-visible:outline-2 focus-visible:outline-trace"
+              className="w-12 input rounded-lg border border-line bg-card px-2 py-2 text-center text-lg focus-visible:outline-2 focus-visible:outline-ink"
             />
             {/* name */}
             <input
@@ -102,7 +102,7 @@ export function BudgetEditor({
               placeholder="Category name"
               maxLength={40}
               onChange={(e) => update(row.rowId, { name: e.target.value })}
-              className="min-w-36 flex-1 rounded-xl border border-line bg-card px-3 py-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-trace"
+              className="min-w-36 flex-1 input rounded-lg border border-line bg-card px-3 py-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-ink"
             />
 
             {/* color palette */}
@@ -135,7 +135,7 @@ export function BudgetEditor({
               onChange={(e) =>
                 update(row.rowId, { flex: e.target.value as EditorRow["flex"] })
               }
-              className="rounded-xl border border-line bg-card px-2 py-2 text-xs font-medium text-ink-soft focus-visible:outline-2 focus-visible:outline-trace"
+              className="input rounded-lg border border-line bg-card px-2 py-2 text-xs font-medium text-ink-soft focus-visible:outline-2 focus-visible:outline-ink"
             >
               {Object.entries(FLEX_LABELS).map(([v, label]) => (
                 <option key={v} value={v}>
@@ -156,7 +156,7 @@ export function BudgetEditor({
                 onChange={(e) =>
                   update(row.rowId, { limitDollars: e.target.valueAsNumber })
                 }
-                className="num w-24 rounded-xl border border-line bg-card px-2 py-2 text-right text-sm font-semibold focus-visible:outline-2 focus-visible:outline-trace"
+                className="num w-24 input rounded-lg border border-line bg-card px-2 py-2 text-right text-sm font-semibold focus-visible:outline-2 focus-visible:outline-ink"
               />
               <span className="text-xs font-medium text-ink-faint">/mo</span>
             </label>
@@ -170,7 +170,7 @@ export function BudgetEditor({
             <button
               onClick={() => remove(row)}
               aria-label={`Remove ${row.name || "category"}`}
-              className="ml-auto rounded-full px-2 py-1 text-xs font-semibold text-ink-faint transition-colors hover:text-negative focus-visible:outline-2 focus-visible:outline-trace"
+              className="ml-auto rounded-full px-2 py-1 text-xs font-semibold text-ink-faint transition-colors hover:text-negative focus-visible:outline-2 focus-visible:outline-ink"
             >
               Remove
             </button>
@@ -180,9 +180,9 @@ export function BudgetEditor({
 
       <button
         onClick={addRow}
-        className="self-start rounded-full border border-line bg-card px-4 py-2 text-sm font-medium text-ink-soft transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-trace"
+        className="btn-secondary self-start focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
-        + Add a category 🌿
+        + Add a category
       </button>
 
       {error && (
@@ -197,13 +197,13 @@ export function BudgetEditor({
         </p>
         {status === "saved" ? (
           <p className="rounded-full bg-trace px-4 py-2 text-sm font-semibold text-ink">
-            Saved! Your budget now applies to every month ✨
+            Saved — your budget now applies to every month
           </p>
         ) : (
           <button
             onClick={submit}
             disabled={status === "saving" || rows.length === 0}
-            className="rounded-full bg-trace px-5 py-2.5 text-sm font-semibold text-ink transition-opacity hover:opacity-85 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            className="btn-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
           >
             {status === "saving" ? "Saving…" : submitLabel}
           </button>

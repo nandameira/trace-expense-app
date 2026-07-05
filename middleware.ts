@@ -19,11 +19,23 @@ import { NextResponse, type NextRequest } from "next/server";
 const PUBLIC_PREFIXES = ["/auth"]; // besides "/" itself
 
 export async function middleware(request: NextRequest) {
+  // Guard: a missing/malformed env var here would otherwise crash EVERY
+  // request as MIDDLEWARE_INVOCATION_FAILED. Fail with a readable message.
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  if (!supabaseUrl || !supabaseAnonKey || !supabaseUrl.startsWith("https://")) {
+    return new NextResponse(
+      "Configuration error: NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY " +
+        "must be set (Vercel → Settings → Environment Variables), then redeploy.",
+      { status: 500, headers: { "content-type": "text/plain" } }
+    );
+  }
+
   let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {

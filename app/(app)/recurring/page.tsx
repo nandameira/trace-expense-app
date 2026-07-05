@@ -30,7 +30,7 @@ export default function RecurringPage() {
     <main className="px-6 py-10 lg:px-10">
       <header className="mb-8">
         <p className="text-sm font-medium text-ink-faint">Recurring</p>
-        <h1 className="font-display text-3xl font-semibold tracking-tight">
+        <h1 className="type-display tracking-tight">
           Subscriptions & bills
         </h1>
         <p className="num mt-2 text-sm text-ink-soft">
@@ -39,7 +39,7 @@ export default function RecurringPage() {
       </header>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-        <section className="tile p-6 lg:col-span-7">
+        <section className="tile p-4 lg:col-span-7">
           <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
             Detected from your history
           </p>
@@ -73,7 +73,7 @@ export default function RecurringPage() {
           </p>
           {upcoming.length === 0 ? (
             <p className="mt-4 text-sm text-ink-soft">
-              Nothing due — enjoy the quiet stretch 🍃
+              Nothing due — enjoy the quiet stretch
             </p>
           ) : (
             <ul className="mt-3 flex flex-col gap-3">

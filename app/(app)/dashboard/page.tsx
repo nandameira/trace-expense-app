@@ -35,7 +35,7 @@ export default function DashboardPage() {
       <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-ink-faint">Trace Expense</p>
-          <h1 className="font-display text-3xl font-semibold tracking-tight">
+          <h1 className="type-display tracking-tight">
             Current cycle
           </h1>
         </div>
@@ -43,7 +43,7 @@ export default function DashboardPage() {
           <span className="rounded-full border border-line bg-card px-4 py-1.5 text-sm font-medium text-ink-soft">
             {monthSummary.label}
           </span>
-          <button className="rounded-full bg-trace px-4 py-1.5 text-sm font-medium text-ink transition-opacity hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
+          <button className="btn-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
             Import CSV
           </button>
         </div>

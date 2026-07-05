@@ -48,7 +48,7 @@ export function OnboardingFlow() {
       (f) => f.name.toLowerCase().endsWith(".csv") || f.type === "text/csv"
     );
     if (csvs.length === 0) {
-      setUploadError("Those don't look like CSV files — export CSVs from your bank 🏦");
+      setUploadError("Those don't look like CSV files — export CSVs from your bank.");
       return;
     }
     setUploadError(null);
@@ -60,7 +60,7 @@ export function OnboardingFlow() {
 
   const analyze = async () => {
     if (files.length === 0) {
-      setUploadError("Add at least one CSV to analyze 📄");
+      setUploadError("Add at least one CSV to analyze.");
       return;
     }
     setStage("analyzing");
@@ -78,7 +78,7 @@ export function OnboardingFlow() {
     if (merged.rows.length === 0) {
       setFileErrors(errors);
       setUploadError(
-        "No transactions could be read from those files 😔 Check they're bank CSV exports and try again."
+        "No transactions could be read from those files. Check they're bank CSV exports and try again."
       );
       setStage("upload");
       return;
@@ -125,7 +125,7 @@ export function OnboardingFlow() {
       <main className="mx-auto max-w-3xl px-6 py-12">
         <header className="mb-8">
           <p className="text-sm font-medium text-ink-faint">Step 2 of 2</p>
-          <h1 className="font-display text-3xl font-semibold tracking-tight">
+          <h1 className="type-display tracking-tight">
             Here's your budget, sketched from real life 🎨
           </h1>
           <p className="num mt-2 text-sm text-ink-soft">
@@ -138,13 +138,13 @@ export function OnboardingFlow() {
           {monthsSeen < RECOMMENDED_MONTHS && (
             <p className="mt-3 rounded-xl bg-amber-soft px-4 py-3 text-sm font-medium text-amber">
               Heads up: only {monthsSeen} {monthsSeen === 1 ? "month" : "months"} of
-              history found — averages get better with {RECOMMENDED_MONTHS}+ months 🗓️
+              history found — averages get better with {RECOMMENDED_MONTHS}+ months.
             </p>
           )}
         </header>
         <BudgetEditor
           initialRows={rows}
-          submitLabel="Save & Confirm 🎉"
+          submitLabel="Save & Confirm"
           onSave={handleSave}
         />
       </main>
@@ -155,7 +155,7 @@ export function OnboardingFlow() {
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center px-6 py-12">
       <p className="text-sm font-medium text-ink-faint">Step 1 of 2</p>
-      <h1 className="font-display text-3xl font-semibold tracking-tight">
+      <h1 className="type-display tracking-tight">
         Welcome! Let's build your budget 🪴
       </h1>
       <p className="mt-2 text-sm text-ink-soft">
@@ -180,20 +180,18 @@ export function OnboardingFlow() {
           dragOver ? "border-ink bg-trace-soft" : "border-line"
         }`}
       >
-        <span className="text-3xl" aria-hidden>
-          📁
-        </span>
+        <img src="/traces-icon.svg" alt="" width={40} height={40} className="rounded-lg" />
         <p className="text-sm font-medium">
           Drag your CSV files here, or{" "}
           <button
             onClick={() => inputRef.current?.click()}
-            className="font-semibold underline decoration-2 underline-offset-2 focus-visible:outline-2 focus-visible:outline-trace"
+            className="font-semibold underline decoration-2 underline-offset-2 focus-visible:outline-2 focus-visible:outline-ink"
           >
             browse
           </button>
         </p>
         <p className="text-xs text-ink-faint">
-          Multiple files welcome — e.g. six monthly statements at once ✨
+          Multiple files welcome — e.g. six monthly statements at once.
         </p>
         <input
           ref={inputRef}
@@ -216,13 +214,13 @@ export function OnboardingFlow() {
               key={f.name + f.size}
               className="num flex items-center gap-2 rounded-full border border-line bg-card px-3 py-1.5 text-xs font-medium"
             >
-              📄 {f.name}
+              {f.name}
               <button
                 aria-label={`Remove ${f.name}`}
                 onClick={() =>
                   setFiles((fs) => fs.filter((x) => x.name + x.size !== f.name + f.size))
                 }
-                className="text-ink-faint hover:text-negative focus-visible:outline-2 focus-visible:outline-trace"
+                className="text-ink-faint hover:text-negative focus-visible:outline-2 focus-visible:outline-ink"
               >
                 ✕
               </button>
@@ -245,9 +243,9 @@ export function OnboardingFlow() {
       <button
         onClick={analyze}
         disabled={files.length === 0}
-        className="mt-6 self-start rounded-full bg-trace px-6 py-3 text-sm font-semibold text-ink transition-opacity hover:opacity-85 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className="btn-primary mt-6 self-start focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
-        Analyze my spending 🔍
+        Analyze my spending
       </button>
     </main>
   );

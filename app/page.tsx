@@ -1,7 +1,8 @@
 /**
  * / — the login gateway. Middleware forwards authenticated users to
- * /dashboard before this renders, so this page only ever serves
- * signed-out visitors. Google OAuth is the sole authentication method.
+ * /dashboard before this renders. Structure follows the brand reference:
+ * centered surface, lockup, welcome headline, primary (black) Google
+ * button, divider, caption footnote.
  */
 
 import Image from "next/image";
@@ -22,54 +23,42 @@ export default async function LoginGateway({
 
   return (
     <main className="flex min-h-screen items-center justify-center px-6">
-      <div className="tile relative w-full max-w-sm overflow-hidden p-8">
+      <div className="tile flex w-full max-w-md flex-col items-center p-8 text-center">
         <h1 className="sr-only">Traces — Track. Budget. Succeed.</h1>
         <Image
-          src="/logo.png"
+          src="/traces-logo.svg"
           alt="Traces — Track. Budget. Succeed."
           width={280}
-          height={90}
+          height={197}
           priority
-          className="h-auto w-full max-w-70"
+          unoptimized
+          className="h-auto w-56"
         />
 
-        <p className="mt-4 text-sm text-ink-soft">
-          Self-hosted finance, traced to the cent 🐷 Sign in to open your ledger.
+        <h2 className="type-h2 mt-6">Oinc oinc! Welcome to Traces 🐷</h2>
+        <p className="type-body-2 mt-2 text-ink-soft">
+          Self-hosted finance, traced to the cent. Sign in to open your ledger.
         </p>
 
         {error && (
           <p
             role="alert"
-            className="mt-4 rounded-xl bg-negative-soft px-4 py-3 text-sm font-medium text-negative"
+            className="mt-4 w-full rounded-lg bg-negative-soft px-4 py-3 text-sm font-medium text-negative"
           >
             {error}
           </p>
         )}
 
-        <div className="mt-6">
+        <div className="mt-6 w-full">
           <GoogleSignIn next={params.next} />
         </div>
 
-        <p className="mt-6 text-xs text-ink-faint">
+        <hr className="mt-6 w-full border-line" />
+
+        <p className="type-caption mt-4 text-ink-faint">
           Google is the only sign-in method. Your data is isolated per account
           and never shared.
         </p>
-
-        {/* signature trace line, quiet */}
-        <svg
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-12 w-full"
-          viewBox="0 0 400 48"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0 36 C 60 36, 80 14, 130 20 S 220 44, 270 30 S 360 8, 400 22"
-            fill="none"
-            stroke="var(--color-trace)"
-            strokeWidth="1.5"
-            opacity="0.35"
-          />
-        </svg>
       </div>
     </main>
   );

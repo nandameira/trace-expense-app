@@ -67,7 +67,7 @@ export function HeroSpendTile({
     100;
 
   return (
-    <section className="tile relative flex h-full flex-col justify-between overflow-hidden p-6">
+    <section className="tile relative flex h-full flex-col justify-between overflow-hidden p-4">
       <div className="flex items-start justify-between">
         <TileLabel>Spent this cycle</TileLabel>
         <DeltaChip pct={deltaPct} />
@@ -119,7 +119,7 @@ export function VelocityTile({
 }) {
   const total = data.reduce((a, d) => a + d.spend, 0);
   return (
-    <section className="tile flex h-full flex-col p-6">
+    <section className="tile flex h-full flex-col p-4">
       <TileLabel>Velocity · last 14 days</TileLabel>
       <p className="num mt-3 text-2xl font-semibold">
         {formatCad(Math.round(total * 1000))}
@@ -178,7 +178,7 @@ export function SharedLedgerTile({
   ).length;
 
   return (
-    <section className="tile flex h-full flex-col p-6">
+    <section className="tile flex h-full flex-col p-4">
       <div className="flex items-start justify-between">
         <TileLabel>Shared ledger</TileLabel>
         <span className="rounded-full bg-trace-soft px-2 py-0.5 text-xs font-semibold text-ink">
@@ -207,7 +207,7 @@ export function SharedLedgerTile({
         </div>
       )}
 
-      <button className="mt-auto pt-4 text-left text-sm font-semibold text-ink transition-opacity hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace">
+      <button className="mt-auto pt-4 text-left text-sm font-semibold text-ink transition-opacity hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
         Record reimbursement →
       </button>
     </section>
@@ -226,7 +226,7 @@ export function TopCategoriesTile({
   totalMillis: Millis;
 }) {
   return (
-    <section className="tile flex h-full flex-col p-6">
+    <section className="tile flex h-full flex-col p-4">
       <TileLabel>Top categories</TileLabel>
       <ul className="mt-4 flex flex-1 flex-col justify-center gap-5">
         {categories.map((c) => {
@@ -270,7 +270,7 @@ export function AdvisorTile({
   flags: { tone: keyof typeof toneStyles; title: string; body: string }[];
 }) {
   return (
-    <section className="tile flex h-full flex-col p-6">
+    <section className="tile flex h-full flex-col p-4">
       <TileLabel>Advisor</TileLabel>
       <ul className="mt-4 flex flex-col gap-3">
         {flags.map((f) => (
@@ -309,7 +309,7 @@ export function NetWorthTile({
 }) {
   const latest = series[series.length - 1];
   return (
-    <section className="tile flex h-full flex-col p-6">
+    <section className="tile flex h-full flex-col p-4">
       <div className="flex items-start justify-between">
         <TileLabel>Net worth</TileLabel>
         {delta && (
@@ -374,7 +374,7 @@ export function UpcomingBillsTile({
   bills: { displayName: string; typicalAmountMillis: Millis; nextExpected: string }[];
 }) {
   return (
-    <section className="tile flex h-full flex-col p-6">
+    <section className="tile flex h-full flex-col p-4">
       <div className="flex items-baseline justify-between">
         <TileLabel>Upcoming bills · 14 days</TileLabel>
         <a href="/recurring" className="text-sm font-medium text-ink-soft hover:text-ink">
@@ -382,7 +382,7 @@ export function UpcomingBillsTile({
         </a>
       </div>
       {bills.length === 0 ? (
-        <p className="mt-4 text-sm text-ink-soft">Nothing due in this window — enjoy the calm 🌿</p>
+        <p className="mt-4 text-sm text-ink-soft">Nothing due in this window.</p>
       ) : (
         <ul className="mt-3 divide-y divide-line">
           {bills.map((b) => (
@@ -427,7 +427,7 @@ export function RecentTransactionsTile({ transactions }: { transactions: Txn[] }
     setSplits((s) => ({ ...s, [id]: pct }));
 
   return (
-    <section className="tile flex h-full flex-col p-6">
+    <section className="tile flex h-full flex-col p-4">
       <div className="flex items-baseline justify-between">
         <TileLabel>Recent</TileLabel>
         <a
@@ -462,7 +462,7 @@ export function RecentTransactionsTile({ transactions }: { transactions: Txn[] }
             {splits[t.id] === null ? (
               <button
                 onClick={() => toggleSplit(t.id)}
-                className="rounded-full border border-line px-2.5 py-1 text-xs font-semibold text-ink-soft transition-colors hover:border-trace hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace"
+                className="rounded-full border border-line px-2.5 py-1 text-xs font-semibold text-ink-soft transition-colors hover:border-trace hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
                 Split
               </button>
@@ -471,7 +471,7 @@ export function RecentTransactionsTile({ transactions }: { transactions: Txn[] }
                 aria-label={`Your share of ${t.description}`}
                 value={splits[t.id]!}
                 onChange={(e) => setPct(t.id, Number(e.target.value))}
-                className="num rounded-full border border-trace bg-trace-soft px-2 py-1 text-xs font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace"
+                className="num rounded-full border border-trace bg-trace-soft px-2 py-1 text-xs font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
               >
                 {SPLIT_OPTIONS.map((pct) => (
                   <option key={pct} value={pct}>

@@ -32,10 +32,21 @@ export default async function AppLayout({
     redirect("/"); // middleware should have caught this; never trust one gate
   }
 
-  // Onboarding check: no budget configuration yet -> first-time setup.
-  // Only redirect on a SUCCESSFUL zero-count read; if the query errors
-  // (e.g. Supabase not configured in a demo environment) we stay put,
-  // which also makes a redirect loop impossible from this side.
+  // First-run gates, in order. Both only fire on a SUCCESSFUL read (a
+  // query error — e.g. unconfigured demo environment — never redirects),
+  // and both targets live outside this layout, so loops are structurally
+  // impossible.
+  // Gate 1: profile welcome (/welcome) — name, currency, avatar.
+  const { data: gateProfile, error: gateError } = await supabase
+    .from("profiles")
+    .select("welcome_completed_at")
+    .eq("id", user.id)
+    .single();
+  if (!gateError && gateProfile && !gateProfile.welcome_completed_at) {
+    redirect("/welcome");
+  }
+
+  // Gate 2: budget configuration (/onboarding).
   const { count: budgetCount, error: budgetError } = await supabase
     .from("budgets")
     .select("id", { count: "exact", head: true });

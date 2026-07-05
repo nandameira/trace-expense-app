@@ -41,7 +41,7 @@ export default function AccountsPage() {
       </header>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-        <section className="tile p-6 lg:col-span-8">
+        <section className="tile p-4 lg:col-span-8">
           <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
             Assets − liabilities over time
           </p>
@@ -55,7 +55,7 @@ export default function AccountsPage() {
           </div>
         </section>
 
-        <section className="tile p-6 lg:col-span-4">
+        <section className="tile p-4 lg:col-span-4">
           <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
             Accounts
           </p>

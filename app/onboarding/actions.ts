@@ -35,7 +35,7 @@ const HEX = /^#[0-9a-fA-F]{6}$/;
 const FLEX = new Set(["fixed", "flexible", "non_monthly"]);
 
 function validate(items: BudgetConfigItem[]): string | null {
-  if (!Array.isArray(items) || items.length === 0) return "Add at least one category 🪴";
+  if (!Array.isArray(items) || items.length === 0) return "Add at least one category.";
   if (items.length > 30) return "That's a lot of categories — keep it to 30 or fewer.";
   const names = new Set<string>();
   for (const it of items) {

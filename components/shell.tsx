@@ -27,14 +27,15 @@ export function Shell({
       <aside className="sticky top-0 hidden h-screen w-56 shrink-0 flex-col border-r border-line px-4 py-8 md:flex">
         <Link href="/dashboard" className="flex items-center gap-2 px-2">
           <Image
-            src="/app-icon.png"
+            src="/traces-icon.svg"
             alt=""
             width={26}
             height={26}
+            unoptimized
             className="rounded-md"
             priority
           />
-          <span className="font-display text-lg font-semibold tracking-tight">
+          <span className="type-h3 tracking-tight">
             Traces
           </span>
         </Link>
@@ -47,7 +48,7 @@ export function Shell({
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace ${
+                className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
                   active
                     ? "bg-trace text-ink"
                     : "text-ink-soft hover:bg-card hover:text-ink"
@@ -72,7 +73,7 @@ export function Shell({
           <form action="/auth/signout" method="post">
             <button
               type="submit"
-              className="text-left text-xs font-semibold text-ink-faint transition-colors hover:text-negative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace"
+              className="text-left text-xs font-semibold text-ink-faint transition-colors hover:text-negative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             >
               Sign out
             </button>

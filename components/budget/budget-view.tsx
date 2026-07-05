@@ -11,7 +11,7 @@ import {
 import { formatCad, sum } from "@/lib/money";
 
 const stateColor = {
-  under: "var(--color-ink)",
+  under: "var(--color-trace)",
   warning: "var(--color-amber)",
   over: "var(--color-negative)",
 } as const;
@@ -43,7 +43,7 @@ export function BudgetView({
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       {/* Summary strip */}
-      <section className="tile flex flex-wrap items-center gap-x-10 gap-y-4 p-6 lg:col-span-12">
+      <section className="tile flex flex-wrap items-center gap-x-10 gap-y-4 p-4 lg:col-span-12">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
             Spent
@@ -85,7 +85,7 @@ export function BudgetView({
               role="tab"
               aria-selected={style === s}
               onClick={() => setStyle(s)}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium capitalize transition-colors focus-visible:outline-2 focus-visible:outline-trace ${
+              className={`rounded-full px-4 py-1.5 text-sm font-medium capitalize transition-colors focus-visible:outline-2 focus-visible:outline-ink ${
                 style === s ? "bg-trace text-ink" : "text-ink-soft hover:text-ink"
               }`}
             >
@@ -96,7 +96,7 @@ export function BudgetView({
       </section>
 
       {style === "category" ? (
-        <section className="tile p-6 lg:col-span-12">
+        <section className="tile p-4 lg:col-span-12">
           <ul className="flex flex-col gap-5">
             {lines.map((l) => (
               <li key={l.categoryId}>
@@ -186,7 +186,7 @@ function FlexBoard({
                   background:
                     data.available < 0
                       ? "var(--color-negative)"
-                      : "var(--color-ink)",
+                      : "var(--color-trace)",
                 }}
               />
             </div>

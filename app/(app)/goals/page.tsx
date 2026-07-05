@@ -9,14 +9,14 @@ export default function GoalsPage() {
     <main className="px-6 py-10 lg:px-10">
       <header className="mb-8">
         <p className="text-sm font-medium text-ink-faint">Goals</p>
-        <h1 className="font-display text-3xl font-semibold tracking-tight">
+        <h1 className="type-display tracking-tight">
           Saving toward what matters
         </h1>
       </header>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {views.map((g) => (
-          <section key={g.goalId} className="tile flex flex-col p-6">
+          <section key={g.goalId} className="tile flex flex-col p-4">
             <div className="flex items-start justify-between">
               <p className="text-2xl" aria-hidden>
                 {g.emoji}
@@ -51,14 +51,14 @@ export default function GoalsPage() {
                   width: `${g.progressPct}%`,
                   background: g.complete
                     ? "var(--color-positive)"
-                    : "var(--color-ink)",
+                    : "var(--color-trace)",
                 }}
               />
             </div>
 
             <p className="mt-4 text-xs text-ink-faint">
               {g.complete
-                ? "Target reached — nice work 🎉"
+                ? "Target reached — nice work."
                 : g.requiredPerMonth != null
                   ? `Needs ${formatCad(g.requiredPerMonth)}/mo to land by ${g.targetDate}`
                   : `${formatCad(g.remaining)} to go — no deadline set`}
