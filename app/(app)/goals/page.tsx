@@ -26,7 +26,7 @@ export default function GoalsPage() {
                   Funded
                 </span>
               ) : (
-                <span className="num rounded-full bg-trace-soft px-2.5 py-1 text-xs font-semibold text-trace">
+                <span className="num rounded-full bg-trace-soft px-2.5 py-1 text-xs font-semibold text-ink">
                   {Math.round(g.progressPct)}%
                 </span>
               )}
@@ -51,14 +51,14 @@ export default function GoalsPage() {
                   width: `${g.progressPct}%`,
                   background: g.complete
                     ? "var(--color-positive)"
-                    : "var(--color-trace)",
+                    : "var(--color-ink)",
                 }}
               />
             </div>
 
             <p className="mt-4 text-xs text-ink-faint">
               {g.complete
-                ? "Target reached — nice work."
+                ? "Target reached — nice work 🎉"
                 : g.requiredPerMonth != null
                   ? `Needs ${formatCad(g.requiredPerMonth)}/mo to land by ${g.targetDate}`
                   : `${formatCad(g.remaining)} to go — no deadline set`}

@@ -74,7 +74,7 @@ export function HeroSpendTile({
       </div>
 
       <div className="relative z-10 mt-6">
-        <p className="num font-display text-5xl font-semibold tracking-tight">
+        <p className="num text-5xl font-semibold tracking-tight">
           {formatCad(Math.abs(summary.spendMillis))}
         </p>
         <p className="num mt-2 text-sm text-ink-soft">
@@ -93,14 +93,14 @@ export function HeroSpendTile({
         <path
           d="M0 70 C 40 70, 55 34, 90 40 S 150 80, 190 62 S 250 18, 300 34 S 370 60, 400 44"
           fill="none"
-          stroke="var(--color-trace)"
+          stroke="var(--color-ink)"
           strokeWidth="2"
           strokeLinecap="round"
           opacity="0.9"
         />
         <path
           d="M0 70 C 40 70, 55 34, 90 40 S 150 80, 190 62 S 250 18, 300 34 S 370 60, 400 44 L 400 96 L 0 96 Z"
-          fill="var(--color-trace)"
+          fill="var(--color-ink)"
           opacity="0.06"
         />
       </svg>
@@ -121,7 +121,7 @@ export function VelocityTile({
   return (
     <section className="tile flex h-full flex-col p-6">
       <TileLabel>Velocity · last 14 days</TileLabel>
-      <p className="num mt-3 font-display text-2xl font-semibold">
+      <p className="num mt-3 text-2xl font-semibold">
         {formatCad(Math.round(total * 1000))}
       </p>
       <div className="mt-3 min-h-20 flex-1">
@@ -129,8 +129,8 @@ export function VelocityTile({
           <AreaChart data={data} margin={{ top: 4, right: 0, bottom: 0, left: 0 }}>
             <defs>
               <linearGradient id="traceFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--color-trace)" stopOpacity={0.18} />
-                <stop offset="100%" stopColor="var(--color-trace)" stopOpacity={0} />
+                <stop offset="0%" stopColor="var(--color-ink)" stopOpacity={0.18} />
+                <stop offset="100%" stopColor="var(--color-ink)" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="day" hide />
@@ -148,11 +148,11 @@ export function VelocityTile({
             <Area
               type="monotone"
               dataKey="spend"
-              stroke="var(--color-trace)"
+              stroke="var(--color-ink)"
               strokeWidth={2}
               fill="url(#traceFill)"
               dot={false}
-              activeDot={{ r: 3, fill: "var(--color-trace)", strokeWidth: 0 }}
+              activeDot={{ r: 3, fill: "var(--color-ink)", strokeWidth: 0 }}
             />
           </AreaChart>
         </ResponsiveContainer>
@@ -181,12 +181,12 @@ export function SharedLedgerTile({
     <section className="tile flex h-full flex-col p-6">
       <div className="flex items-start justify-between">
         <TileLabel>Shared ledger</TileLabel>
-        <span className="rounded-full bg-trace-soft px-2 py-0.5 text-xs font-semibold text-trace">
+        <span className="rounded-full bg-trace-soft px-2 py-0.5 text-xs font-semibold text-ink">
           FIFO
         </span>
       </div>
 
-      <p className="num mt-3 font-display text-3xl font-semibold">
+      <p className="num mt-3 text-3xl font-semibold">
         {formatCad(outstandingBalance(ledger.splits))}
       </p>
       <p className="mt-1 text-sm text-ink-soft">
@@ -207,7 +207,7 @@ export function SharedLedgerTile({
         </div>
       )}
 
-      <button className="mt-auto pt-4 text-left text-sm font-semibold text-trace transition-opacity hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace">
+      <button className="mt-auto pt-4 text-left text-sm font-semibold text-ink transition-opacity hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace">
         Record reimbursement →
       </button>
     </section>
@@ -260,7 +260,7 @@ export function TopCategoriesTile({
 
 const toneStyles = {
   warn: "bg-amber-soft text-amber",
-  info: "bg-trace-soft text-trace",
+  info: "bg-trace-soft text-ink",
   good: "bg-positive-soft text-positive",
 } as const;
 
@@ -325,7 +325,7 @@ export function NetWorthTile({
           </span>
         )}
       </div>
-      <p className="num mt-3 font-display text-3xl font-semibold">
+      <p className="num mt-3 text-3xl font-semibold">
         {formatCad(Math.round(latest.netWorth * 1000))}
       </p>
       <div className="mt-3 min-h-24 flex-1">
@@ -333,8 +333,8 @@ export function NetWorthTile({
           <AreaChart data={series} margin={{ top: 4, right: 0, bottom: 0, left: 0 }}>
             <defs>
               <linearGradient id="nwTileFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--color-trace)" stopOpacity={0.15} />
-                <stop offset="100%" stopColor="var(--color-trace)" stopOpacity={0} />
+                <stop offset="0%" stopColor="var(--color-ink)" stopOpacity={0.15} />
+                <stop offset="100%" stopColor="var(--color-ink)" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="date" hide />
@@ -352,7 +352,7 @@ export function NetWorthTile({
             <Area
               type="monotone"
               dataKey="netWorth"
-              stroke="var(--color-trace)"
+              stroke="var(--color-ink)"
               strokeWidth={2}
               fill="url(#nwTileFill)"
               dot={false}
@@ -382,7 +382,7 @@ export function UpcomingBillsTile({
         </a>
       </div>
       {bills.length === 0 ? (
-        <p className="mt-4 text-sm text-ink-soft">Nothing due in this window.</p>
+        <p className="mt-4 text-sm text-ink-soft">Nothing due in this window — enjoy the calm 🌿</p>
       ) : (
         <ul className="mt-3 divide-y divide-line">
           {bills.map((b) => (
@@ -462,7 +462,7 @@ export function RecentTransactionsTile({ transactions }: { transactions: Txn[] }
             {splits[t.id] === null ? (
               <button
                 onClick={() => toggleSplit(t.id)}
-                className="rounded-full border border-line px-2.5 py-1 text-xs font-semibold text-ink-soft transition-colors hover:border-trace hover:text-trace focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace"
+                className="rounded-full border border-line px-2.5 py-1 text-xs font-semibold text-ink-soft transition-colors hover:border-trace hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace"
               >
                 Split
               </button>
@@ -471,7 +471,7 @@ export function RecentTransactionsTile({ transactions }: { transactions: Txn[] }
                 aria-label={`Your share of ${t.description}`}
                 value={splits[t.id]!}
                 onChange={(e) => setPct(t.id, Number(e.target.value))}
-                className="num rounded-full border border-trace bg-trace-soft px-2 py-1 text-xs font-semibold text-trace focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace"
+                className="num rounded-full border border-trace bg-trace-soft px-2 py-1 text-xs font-semibold text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trace"
               >
                 {SPLIT_OPTIONS.map((pct) => (
                   <option key={pct} value={pct}>

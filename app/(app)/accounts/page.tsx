@@ -22,7 +22,7 @@ export default function AccountsPage() {
       <header className="mb-8">
         <p className="text-sm font-medium text-ink-faint">Net worth</p>
         <div className="flex flex-wrap items-baseline gap-3">
-          <h1 className="num font-display text-4xl font-semibold tracking-tight">
+          <h1 className="num text-4xl font-semibold tracking-tight">
           {formatCad(latest.netWorth)}
           </h1>
           {delta && (

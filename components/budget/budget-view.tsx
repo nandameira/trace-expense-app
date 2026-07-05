@@ -11,7 +11,7 @@ import {
 import { formatCad, sum } from "@/lib/money";
 
 const stateColor = {
-  under: "var(--color-trace)",
+  under: "var(--color-ink)",
   warning: "var(--color-amber)",
   over: "var(--color-negative)",
 } as const;
@@ -48,7 +48,7 @@ export function BudgetView({
           <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
             Spent
           </p>
-          <p className="num font-display text-2xl font-semibold">
+          <p className="num text-2xl font-semibold">
             {formatCad(totalSpent)}
           </p>
         </div>
@@ -56,7 +56,7 @@ export function BudgetView({
           <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
             Budgeted (incl. rollover)
           </p>
-          <p className="num font-display text-2xl font-semibold">
+          <p className="num text-2xl font-semibold">
             {formatCad(totalCapacity)}
           </p>
         </div>
@@ -65,7 +65,7 @@ export function BudgetView({
             Projected at pace
           </p>
           <p
-            className={`num font-display text-2xl font-semibold ${
+            className={`num text-2xl font-semibold ${
               projected > totalCapacity ? "text-negative" : "text-positive"
             }`}
           >
@@ -86,7 +86,7 @@ export function BudgetView({
               aria-selected={style === s}
               onClick={() => setStyle(s)}
               className={`rounded-full px-4 py-1.5 text-sm font-medium capitalize transition-colors focus-visible:outline-2 focus-visible:outline-trace ${
-                style === s ? "bg-ink text-white" : "text-ink-soft hover:text-ink"
+                style === s ? "bg-trace text-ink" : "text-ink-soft hover:text-ink"
               }`}
             >
               {s}
@@ -169,7 +169,7 @@ function FlexBoard({
             <p className="text-xs font-semibold uppercase tracking-[0.08em] text-ink-faint">
               {FLEX_LABELS[g]}
             </p>
-            <p className="num mt-3 font-display text-3xl font-semibold">
+            <p className="num mt-3 text-3xl font-semibold">
               {formatCad(Math.max(0, data.available))}
               <span className="ml-2 text-sm font-medium text-ink-faint">
                 left
@@ -186,7 +186,7 @@ function FlexBoard({
                   background:
                     data.available < 0
                       ? "var(--color-negative)"
-                      : "var(--color-trace)",
+                      : "var(--color-ink)",
                 }}
               />
             </div>

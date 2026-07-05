@@ -57,3 +57,17 @@ New surfaces: **/budget** (category + flex styles with rollover chips and pace f
 - SQL: opening a second cycle rolled Groceries' $150 surplus in; the spent-sync trigger tracked a landed transaction; account_balances signs liabilities negative; goal_progress sums contributions.
 - TS: 27/27 unit tests (recurring true/false positives incl. reference-code suffixes and grocery-store rejection, rollover math, over-budget states, flex aggregation, rule priority + amount bounds + invalid-regex safety, net-worth carry-forward and delta, goal pacing).
 - next build compiles all routes with strict types; production server smoke test returned HTTP 200 on all five pages with engine-computed values rendered server-side.
+
+---
+
+## v3 — Onboarding, budget generation & restyle
+
+New flow: first-time users are redirected to **/onboarding** (multi-file CSV upload → animated analysis → editable budget review → Save & Confirm), and **/settings/budgets** lets them revisit categories, colors, and limits any time. The saved configuration is a template: `open_budget_periods()` applies it to every new financial cycle automatically.
+
+Key modules: `lib/csv/autodetect.ts` (zero-config column detection, debit/credit pairs, sign heuristics, multi-file merge with cross-file dedupe), `lib/budget/generate.ts` (keyword classifier, N-month averaging, limit suggestion with headroom, persistent 10-color data palette), `app/onboarding/actions.ts` (validated server action shared with settings), `components/budget-editor.tsx` (shared review/edit UI), `components/analyzing-overlay.tsx` ($ + magnifying-glass loading state).
+
+Design system v3: Lora serif headings, Inter body with tabular numerals for all figures, strictly monochrome chrome, `#CEEC97` reserved for primary buttons/active states/focus, category colors as persisted data colors, friendly emoji in category names, empty states, loading and success messages 🪴
+
+### v3 verification log
+- 71 unit tests green across four suites (money/FIFO, engines, crypto, onboarding: autodetect layouts incl. debit/credit and positive-expense statements, cross-file dedupe, classifier incl. Uber-vs-UberEats, limit rounding, 6-month sparse-category averaging, distinct color assignment).
+- Production build compiles all 13 routes; smoke tests: /onboarding and /settings/budgets protected (307 → gateway with `next` preserved), no redirect loops (max 1 hop), Lora + accent button served on the gateway.

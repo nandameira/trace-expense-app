@@ -1,42 +1,56 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Trace Expense — design tokens
-   Canvas: warm paper grey. Cards: pure white, hairline border, one soft
-   shadow layer. Single accent: trace violet. Numbers always tabular.
+   Trace Expense — design tokens (v3 restyle)
+   Chrome: strictly monochrome (white / black / greys).
+   Accent: #CEEC97 EXCLUSIVELY for primary buttons, active states, focus.
+   Category colors are DATA colors (persisted per category) — they live in
+   charts/chips only, never in app chrome.
+   Type: serif display for headings (Lora), Inter for body, tabular Inter
+   for every number.
 --------------------------------------------------------------------------- */
 @theme {
-  --color-canvas: #f3f3f0;
+  --color-canvas: #f5f5f4;
   --color-card: #ffffff;
-  --color-ink: #191817;
-  --color-ink-soft: #6f6d68;
-  --color-ink-faint: #a3a19a;
-  --color-line: #e8e7e2;
+  --color-ink: #171717;
+  --color-ink-soft: #666664;
+  --color-ink-faint: #9c9c99;
+  --color-line: #e6e6e4;
 
-  --color-trace: #6656e8;        /* accent */
-  --color-trace-soft: #efedfd;
+  --color-accent: #ceec97;       /* the one highlight */
+  --color-accent-soft: #f912;    /* placeholder overwritten below */
+
+  /* legacy token names kept to avoid churn; both now mean "accent" */
+  --color-trace: #ceec97;
+  --color-trace-soft: #f2fae2;
+
+  /* semantic data colors (finance deltas stay red/green by convention) */
   --color-positive: #1f8a5d;
-  --color-positive-soft: #e4f4ec;
+  --color-positive-soft: #e6f4ed;
   --color-negative: #cf4534;
   --color-negative-soft: #fbeae7;
-  --color-amber: #d9930f;
-  --color-amber-soft: #fbf1dc;
+  --color-amber: #b98a1d;
+  --color-amber-soft: #faf3df;
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Instrument Sans", "Inter", ui-sans-serif, sans-serif;
+  --font-display: "Lora", ui-serif, Georgia, serif;
 
   --radius-tile: 1.25rem;
-  --shadow-tile: 0 1px 2px rgb(25 24 23 / 0.04), 0 8px 24px -12px rgb(25 24 23 / 0.10);
+  --shadow-tile: 0 1px 2px rgb(23 23 23 / 0.04), 0 8px 24px -12px rgb(23 23 23 / 0.10);
+}
+
+@theme {
+  --color-accent-soft: #f2fae2;
 }
 
 body {
   background: var(--color-canvas);
   color: var(--color-ink);
-  font-feature-settings: "cv11";
 }
 
-/* Every rendered amount uses tabular figures — columns of money never wobble */
+/* Numbers are data: always tabular Inter, even inside serif headings */
 .num {
+  font-family: var(--font-sans);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
@@ -47,6 +61,21 @@ body {
   border-radius: var(--radius-tile);
   box-shadow: var(--shadow-tile);
 }
+
+/* Onboarding analysis animation — $ under a scanning magnifying glass */
+@keyframes trace-scan {
+  0%   { transform: translate(-26px, -14px) rotate(-6deg); }
+  25%  { transform: translate(22px, -20px) rotate(4deg); }
+  50%  { transform: translate(26px, 16px) rotate(-3deg); }
+  75%  { transform: translate(-20px, 20px) rotate(5deg); }
+  100% { transform: translate(-26px, -14px) rotate(-6deg); }
+}
+@keyframes trace-pulse {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 1; }
+}
+.scan-glass { animation: trace-scan 3.2s ease-in-out infinite; }
+.scan-dollar { animation: trace-pulse 3.2s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

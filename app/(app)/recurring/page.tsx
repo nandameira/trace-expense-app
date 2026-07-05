@@ -54,7 +54,7 @@ export default function RecurringPage() {
                   </p>
                 </div>
                 <span
-                  className="num rounded-full bg-trace-soft px-2 py-0.5 text-xs font-semibold text-trace"
+                  className="num rounded-full bg-trace-soft px-2 py-0.5 text-xs font-semibold text-ink"
                   title="Detection confidence"
                 >
                   {Math.round(d.confidence * 100)}%
@@ -73,7 +73,7 @@ export default function RecurringPage() {
           </p>
           {upcoming.length === 0 ? (
             <p className="mt-4 text-sm text-ink-soft">
-              Nothing due — enjoy the quiet stretch.
+              Nothing due — enjoy the quiet stretch 🍃
             </p>
           ) : (
             <ul className="mt-3 flex flex-col gap-3">

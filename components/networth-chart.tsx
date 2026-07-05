@@ -19,8 +19,8 @@ export function NetWorthChart({
       <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: 4 }}>
         <defs>
           <linearGradient id="nwFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--color-trace)" stopOpacity={0.16} />
-            <stop offset="100%" stopColor="var(--color-trace)" stopOpacity={0} />
+            <stop offset="0%" stopColor="var(--color-ink)" stopOpacity={0.16} />
+            <stop offset="100%" stopColor="var(--color-ink)" stopOpacity={0} />
           </linearGradient>
         </defs>
         <XAxis
@@ -53,11 +53,11 @@ export function NetWorthChart({
         <Area
           type="monotone"
           dataKey="netWorth"
-          stroke="var(--color-trace)"
+          stroke="var(--color-ink)"
           strokeWidth={2}
           fill="url(#nwFill)"
           dot={false}
-          activeDot={{ r: 3, fill: "var(--color-trace)", strokeWidth: 0 }}
+          activeDot={{ r: 3, fill: "var(--color-ink)", strokeWidth: 0 }}
         />
       </AreaChart>
     </ResponsiveContainer>
