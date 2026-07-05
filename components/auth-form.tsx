@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-type Mode = "signin" | "signup";
+type Mode = "signin" | "signup" | "reset";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD = 8;
@@ -49,20 +49,40 @@ export function AuthForm({ next }: { next?: string }) {
   const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>({});
   const [pending, setPending] = useState(false);
   const [confirmSent, setConfirmSent] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   const validate = () => {
     const next: typeof errors = {};
     if (!EMAIL.test(email.trim())) {
       next.email = "That doesn't look like an email address — check the format.";
     }
-    if (password.length < MIN_PASSWORD) {
+    if (mode !== "reset" && password.length < MIN_PASSWORD) {
       next.password = `Passwords need at least ${MIN_PASSWORD} characters.`;
     }
     setErrors(next);
     return !next.email && !next.password;
   };
 
+  const requestReset = async () => {
+    if (!validate()) return;
+    setPending(true);
+    setErrors({});
+    const supabase = createClient();
+    // After the link is verified, the callback forwards to /reset-password.
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent("/reset-password")}`,
+    });
+    setPending(false);
+    if (error && (error.message.toLowerCase().includes("rate limit") || error.message.toLowerCase().includes("too many"))) {
+      setErrors({ form: "Too many attempts — take a short breather and try again in a minute." });
+      return;
+    }
+    // Deliberately the same outcome whether or not the account exists.
+    setResetSent(true);
+  };
+
   const submit = async () => {
+    if (mode === "reset") return requestReset();
     if (!validate()) return;
     setPending(true);
     setErrors({});
@@ -114,6 +134,22 @@ export function AuthForm({ next }: { next?: string }) {
     setPending(false);
   };
 
+  if (resetSent) {
+    return (
+      <div
+        role="status"
+        className="w-full rounded-lg px-4 py-4 text-left"
+        style={{ background: "var(--color-trace-soft)" }}
+      >
+        <p className="type-label text-ink">Check your inbox</p>
+        <p className="type-body-2 mt-1.5 text-ink-soft">
+          If an account exists for {email.trim()}, a password reset link is on
+          its way. The link brings you back here to choose a new password.
+        </p>
+      </div>
+    );
+  }
+
   if (confirmSent) {
     return (
       <div
@@ -126,6 +162,59 @@ export function AuthForm({ next }: { next?: string }) {
           We sent a confirmation link to {email.trim()}. Click it and you'll land
           right back here, signed in and ready to go.
         </p>
+      </div>
+    );
+  }
+
+  if (mode === "reset") {
+    return (
+      <div className="w-full text-left">
+        <p className="type-label text-ink">Reset your password</p>
+        <p className="type-body-2 mt-1.5 text-ink-soft">
+          Enter your email and we'll send a link to choose a new password.
+        </p>
+        <div className="mt-4 flex flex-col gap-1.5">
+          <label htmlFor="reset-email" className="type-label text-ink">
+            Email
+          </label>
+          <input
+            id="reset-email"
+            type="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErrors((er) => ({ ...er, email: undefined }));
+            }}
+            onKeyDown={(e) => e.key === "Enter" && submit()}
+            placeholder="you@example.com"
+            aria-invalid={!!errors.email}
+            aria-describedby="reset-email-error"
+            className="input w-full focus-visible:outline-2 focus-visible:outline-ink"
+          />
+          <p id="reset-email-error" role={errors.email ? "alert" : undefined} className="type-caption min-h-4 text-negative">
+            {errors.email ?? ""}
+          </p>
+        </div>
+        <p role={errors.form ? "alert" : undefined} className="type-caption min-h-4 text-negative">
+          {errors.form ?? ""}
+        </p>
+        <button
+          onClick={submit}
+          disabled={pending}
+          className="btn-primary mt-2 w-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        >
+          {pending ? "Sending…" : "Send reset link"}
+        </button>
+        <button
+          onClick={() => {
+            setMode("signin");
+            setErrors({});
+          }}
+          className="type-caption mt-4 text-ink-soft underline decoration-1 underline-offset-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-ink"
+        >
+          Back to sign in
+        </button>
       </div>
     );
   }
@@ -151,6 +240,7 @@ export function AuthForm({ next }: { next?: string }) {
             onClick={() => {
               setMode(m);
               setErrors({});
+              setResetSent(false);
             }}
             className={`type-label flex-1 rounded-md px-4 py-2.5 transition-colors focus-visible:outline-2 focus-visible:outline-ink ${
               mode === m ? "bg-card text-ink shadow-tile" : "text-ink-soft hover:text-ink"
@@ -208,6 +298,18 @@ export function AuthForm({ next }: { next?: string }) {
             {errors.password ?? ""}
           </p>
         </div>
+
+        {mode === "signin" && (
+          <button
+            onClick={() => {
+              setMode("reset");
+              setErrors({});
+            }}
+            className="type-caption self-start text-ink-soft underline decoration-1 underline-offset-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-ink"
+          >
+            Forgot password?
+          </button>
+        )}
 
         <p role={errors.form ? "alert" : undefined} className="type-caption min-h-4 text-negative">
           {errors.form ?? ""}
