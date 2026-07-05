@@ -14,7 +14,8 @@ export async function middleware(request: NextRequest) {
         getAll() {
           return request.cookies.getAll()
         },
-        setAll(cookiesToSet) {
+        // We added the explicit type label here so TypeScript knows what is inside the box:
+        setAll(cookiesToSet: { name: string; value: string; options: any }[]) {
           for (const { name, value } of cookiesToSet) {
             request.cookies.set(name, value)
           }
